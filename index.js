@@ -1,14 +1,15 @@
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-var args = process.argv.slice(2);
+const utils = require("./utils");
+const args = process.argv.slice(2);
 // Gets first argument as directory name, if not specified default to Desktop
 const directoryPath = path.join(os.homedir(), args[0] || "Desktop");
 
 // Reads the directory and searches for files
 fs.readdir(directoryPath, function(err, files) {
   if (err) {
-    return console.log("Unable to scan directory: " + err);
+    return console.error(`Unable to scan directory: ${directoryPath}`);
   }
   files.forEach(function(file) {
     // Gets stats from file
@@ -18,7 +19,7 @@ fs.readdir(directoryPath, function(err, files) {
       if (err) {
         return console.error(err);
       }
-      console.log(file, fileExtension, stats.birthtime);
+      utils.sortFiles(fileExtension, stats.birthtime, file, fileDirectory);
     });
   });
 });
