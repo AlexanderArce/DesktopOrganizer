@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs-extra");
-const os = require("os");
+const { getPicturesFolder } = require("platform-folders");
 
 module.exports = {
   sortFiles: (extension, date, fileName, originalPath) => {
@@ -10,7 +10,7 @@ module.exports = {
     switch (extension) {
       case ".jpg":
       case ".png":
-        newPath = path.join(os.homedir(), "Pictures", year, fileName);
+        newPath = path.join(getPicturesFolder(), year, fileName);
         break;
       default:
         newPath = null;
