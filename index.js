@@ -7,6 +7,7 @@ const program = require("commander");
 const { getDesktopFolder } = require("platform-folders");
 
 const utils = require("./utils");
+const { watchFolder } = require("./watch");
 
 // Commander
 program.version(require("./package.json").version);
@@ -17,6 +18,8 @@ program
   .option("-w, --watch", "Enable watch mode");
 
 program.parse(process.argv);
+
+if (program.watch) watchFolder(program.Directory);
 
 // Gets first argument as directory name, if not specified default to Desktop
 const directoryPath = program.Directory
