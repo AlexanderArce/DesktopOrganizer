@@ -10,20 +10,24 @@ const utils = require("./utils");
 const { watchFolder } = require("./watch");
 
 // Commander
-program.version(require("./package.json").version);
-
 program
-  .option("-d, --debug", "Output extra debugging")
-  .option("-D, --Directory <path>", "The directory path from the root folder")
-  .option("-w, --watch", "Enable watch mode");
+  .name("FileOrganizer")
+  .version(require("./package.json").version)
+  .option("-d, --debug", "output extra debugging")
+  .option("-w, --watch", "enable watch mode")
+  .arguments("[directory_path]")
+  .action(dir => {
+    dirValue = dir;
+  });
 
 program.parse(process.argv);
 
-if (program.watch) watchFolder(program.Directory);
+// If watch flag, enable watch mode
+if (program.watch) watchFolder(dirValue);
 
 // Gets first argument as directory name, if not specified default to Desktop
-const directoryPath = program.Directory
-  ? path.join(os.homedir(), program.Directory)
+const directoryPath = dirValue
+  ? path.join(os.homedir(), dirValue)
   : getDesktopFolder();
 
 // Reads the directory and searches for files
